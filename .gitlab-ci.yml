@@ -7,7 +7,7 @@ stages:
 install_packages:
   stage: setup
   script:
-    - Rscript -e 'install.packages(c("devtools", "roxygen2"))'
+    - Rscript -e 'install.packages(c("devtools"))'
 
 devtools_check:
   stage: test
