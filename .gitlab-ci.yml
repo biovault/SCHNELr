@@ -19,6 +19,7 @@ install_covr:
 devtools_check:
   stage: setup
   script:
+  - cd rschnel
   - mkdir -p $R_LIBS_USER $BUILD_LOGS_DIR
   - Rscript -e 'devtools::build(binary = TRUE)'
   # - Rscript -e 'devtools::install_deps(dep = T, lib = Sys.getenv("R_LIBS_USER"))'
@@ -31,6 +32,7 @@ devtools_check:
 codecov:
   stage: tests
   script:
+    - cd rschnel
     - Rscript -e 'covr::codecov()'
 
 ok:
