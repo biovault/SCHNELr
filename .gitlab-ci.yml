@@ -1,5 +1,20 @@
 image: r-base
 
-test:
+stages:
+  - setup
+  - test
+
+install_packages:
+  stage: setup
+  script:
+    - Rscript -e 'install.packages(c("devtools", "roxygen2"))'
+
+devtools_check:
+  stage: test
+  script:
+    Rscript -e 'devtools::check()'
+
+hello_world:
+  stage: test
   script:
     Rscript -e 'print("Hello World")'
