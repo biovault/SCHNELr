@@ -2,4 +2,4 @@ image: r-base
 
 test:
   script:
-    Rscript 'print(\"hello world\")'
+    Rscript 'print(datasets::mtcars)'
