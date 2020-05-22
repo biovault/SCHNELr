@@ -3,7 +3,7 @@ image: methodsconsultants/r-packaging
 stages:
   - install
   - setup
-  - test
+  - bye
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
@@ -14,6 +14,7 @@ install_covr:
   stage: install
   script:
     - Rscript -e 'install.packages("covr")'
+    - Rscript -e 'devtools::install_github("r-lib/covr")'
     - Rscript -e 'print("covr installed")'
 devtools_check:
   stage: setup
@@ -25,9 +26,11 @@ devtools_check:
   cache:
     paths:
     - $R_LIBS_USER
-   
+    
+after_script:
+  - Rscript -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'
 
 hello_world:
-  stage: test
+  stage: bye
   script:
-    Rscript -e 'print("Hello World")'
+    Rscript -e 'print("All good, bye bye")'
