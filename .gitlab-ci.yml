@@ -1,6 +1,7 @@
 image: methodsconsultants/r-packaging
 
 stages:
+  - install
   - setup
   - test
 
@@ -10,7 +11,7 @@ variables:
   BUILD_LOGS_DIR: "$CI_PROJECT_DIR/ci/logs/$CI_PROJECT_NAME.Rcheck"
 
 install_covr:
-  stage: setup
+  stage: install
   script:
     - Rscript -e 'install.packages("covr")'
     - Rscript -e 'print("covr installed")'
