@@ -25,9 +25,7 @@ devtools_check:
   cache:
     paths:
     - $R_LIBS_USER
-    
-after_script:
-  - Rscript -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'   
+   
 
 hello_world:
   stage: test
