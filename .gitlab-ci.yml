@@ -3,6 +3,7 @@ image: rocker/tidyverse:latest
 stages:
   - install
   - setup
+  - testing
   - bye
 
 variables:
@@ -26,12 +27,12 @@ devtools_check:
     paths:
     - $R_LIBS_USER
 
-# coverage:
-#   stage: testing
-#   scrript:
-#   - Rscript -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'
+coverage:
+  stage: testing
+  scrript:
+  - Rscript -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'
 
-hello_world:
+ok:
   stage: bye
   script:
     Rscript -e 'print("All good, bye bye")'
