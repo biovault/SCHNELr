@@ -1,16 +1,11 @@
-image: r-base
+image: methodsconsultants/r-packaging
 
 stages:
   - setup
   - test
 
-install_packages:
-  stage: setup
-  script:
-    - Rscript -e 'install.packages(c("devtools"))'
-
 devtools_check:
-  stage: test
+  stage: setup
   script:
     Rscript -e 'devtools::check()'
 
