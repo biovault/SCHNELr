@@ -2,4 +2,4 @@ image: r-base
 
 test:
   script:
-    -R -e 'print(datasets::mtcars)'
+    Rscript -e 'print(datasets::mtcars)'
