@@ -20,6 +20,7 @@ devtools_check:
   stage: setup
   script:
   - mkdir -p $R_LIBS_USER $BUILD_LOGS_DIR
+  - Rscript -e 'devtools::build(binary = TRUE)'
   # - Rscript -e 'devtools::install_deps(dep = T, lib = Sys.getenv("R_LIBS_USER"))'
   # - Rscript -e 'devtools::check(check_dir = Sys.getenv("CHECK_DIR"))'
   # - Rscript -e 'if (length(devtools::check_failures(path = Sys.getenv("BUILD_LOGS_DIR"), note = FALSE)) > 0) stop()'
@@ -27,10 +28,10 @@ devtools_check:
     paths:
     - $R_LIBS_USER
 
-testing:
+codecov:
   stage: tests
-  scrript:
-  - Rscript -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'
+  script:
+    - Rscript -e 'covr::codecov()'
 
 ok:
   stage: bye
