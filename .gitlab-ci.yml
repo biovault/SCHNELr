@@ -20,8 +20,8 @@ devtools_check:
   script:
   - mkdir -p $R_LIBS_USER $BUILD_LOGS_DIR
   # - Rscript -e 'devtools::install_deps(dep = T, lib = Sys.getenv("R_LIBS_USER"))'
-  - Rscript -e 'devtools::check(check_dir = Sys.getenv("CHECK_DIR"))'
-  - Rscript -e 'if (length(devtools::check_failures(path = Sys.getenv("BUILD_LOGS_DIR"), note = FALSE)) > 0) stop()'
+  # - Rscript -e 'devtools::check(check_dir = Sys.getenv("CHECK_DIR"))'
+  # - Rscript -e 'if (length(devtools::check_failures(path = Sys.getenv("BUILD_LOGS_DIR"), note = FALSE)) > 0) stop()'
   cache:
     paths:
     - $R_LIBS_USER
