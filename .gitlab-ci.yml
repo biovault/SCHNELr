@@ -4,7 +4,6 @@ stages:
   - install
   - setup
   - tests
-  - bye
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
@@ -40,9 +39,7 @@ codecov:
   stage: tests
   script:
     - cd rschnel
-    - Rscript -e 'covr::report()'
-
-ok:
-  stage: bye
-  script:
-    Rscript -e 'print("All good, bye bye")'
+    - R CMD build . --no-build-vignettes --no-manual
+    - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+    - R CMD check "${PKG_FILE_NAME}" --no-build-vignettes --no-manual
+    - R -e 'devtools::test()' 
