@@ -1,4 +1,4 @@
-image: methodsconsultants/r-packaging
+image: rocker/tidyverse:latest
 
 stages:
   - install
@@ -14,7 +14,6 @@ install_covr:
   stage: install
   script:
     - Rscript -e 'install.packages("covr")'
-    - Rscript -e 'devtools::install_github("r-lib/covr")'
     - Rscript -e 'print("covr installed")'
 devtools_check:
   stage: setup
