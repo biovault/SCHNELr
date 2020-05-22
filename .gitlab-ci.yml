@@ -14,13 +14,16 @@ install_covr:
   stage: install
   script:
     - Rscript -e 'install.packages("covr")'
-    - Rscript -e 'print("covr installed")'
+
+install_testthat:
+  stage: install
+  script:
+    - Rscript -e 'install.packages("test_that")'
 
 install_DT:
   stage: install
   script:
     - Rscript -e 'install.packages("DT")'
-    - Rscript -e 'print("DT installed")'
 
 devtools_check:
   stage: setup
