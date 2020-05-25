@@ -1,0 +1,49 @@
+image: rocker/tidyverse:latest
+
+stages:
+  - install
+  - setup
+  - tests
+
+variables:
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
+  CHECK_DIR: "$CI_PROJECT_DIR/ci/logs"
+  BUILD_LOGS_DIR: "$CI_PROJECT_DIR/ci/logs/$CI_PROJECT_NAME.Rcheck"
+
+install_covr:
+  stage: install
+  script:
+    - Rscript -e 'install.packages("covr")'
+
+install_testthat:
+  stage: install
+  script:
+    - Rscript -e 'install.packages("test_that")'
+
+install_DT:
+  stage: install
+  script:
+    - Rscript -e 'install.packages("DT")'
+
+devtools_check:
+  stage: setup
+  script:
+  - cd rschnel
+  - mkdir -p $R_LIBS_USER $BUILD_LOGS_DIR
+  # - Rscript -e 'devtools::build(binary = TRUE)'
+  # - Rscript -e 'devtools::install_deps(dep = T, lib = Sys.getenv("R_LIBS_USER"))'
+  # - Rscript -e 'devtools::check(check_dir = Sys.getenv("CHECK_DIR"))'
+  # - Rscript -e 'if (length(devtools::check_failures(path = Sys.getenv("BUILD_LOGS_DIR"), note = FALSE)) > 0) stop()'
+  cache:
+    paths:
+    - $R_LIBS_USER
+
+codecov:
+  stage: tests
+  script:
+    - cd rschnel
+    - cd rschnel
+    - R CMD build . --no-build-vignettes --no-manual
+    - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+    #- R CMD check "${PKG_FILE_NAME}" --no-build-vignettes --no-manual
+    - R -e 'devtools::test()' 
