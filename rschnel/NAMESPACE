@@ -1,3 +1,0 @@
-useDynLib(rschnel, .registration=TRUE)
-export("Rcpp.fake.fun")
-importFrom(Rcpp, evalCpp)
