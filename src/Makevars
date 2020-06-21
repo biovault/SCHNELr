@@ -1,0 +1,18 @@
+#PKG_CXXFLAGS= -llz4
+# PKG_LIBS = -llz4
+#CXXFLAGS= -llz4
+
+CXX_STD = CXX11
+
+SOURCES=$(rhdi *.cpp) $(rhdi **/*.cpp)
+
+OBJECTS = RcppExports.o df_to_hsne.o ./r_hdi/timers.o ./r_hdi/math_utils.o \
+         ./r_hdi/cout_log.o ./r_hdi/log_progress.o $(SOURCES:.cpp=.o)
+
+PKG_CPPFLAGS = -I"." -I"./r_hdi" -llz4
+
+PKG_LIBS = -llz4
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)

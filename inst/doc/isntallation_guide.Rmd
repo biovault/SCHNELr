@@ -1,0 +1,101 @@
+---
+title: "Installation Guide for rSCHNEL"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Installation Guide for rSCHNEL}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this tutorial tutorial we will be showing how to prepare the rSCHNEL package in order to support the full functionality of the package for many different input types. 
+
+In order to ensure the successful installation of the package, download two libraries that the wrapped C++ HSNE dimensionality reduction implementation requires. 
+In the terminal, run:
+```
+$ sudo apt-get update
+$ sudo apt-get install liblz4-dev
+$ sudo apt-get install libflann-dev
+```
+
+
+To support the use of the clustering algorithm, please install python modules for the leiden algorithm.
+In case of any problems refer to the official website [here](https://cran.r-project.org/web/packages/leiden/vignettes/run_leiden.html)
+Install the required packages with `pip install leidenalg` / `pip 3 install leidenalg`
+
+To download the rSCHNEL package, first install `devtools` utilities package
+```{r, eval = F}
+install.packages("devtools")
+```
+
+Then, download the package from GitHub.
+```{r, eval = F}
+devtools::install_github(biovault/rschnel)
+```
+
+## Loading Multiple Files
+
+In order to load in multiple files from one directory specify the `dir=` parameter.
+```{r, eval = FALSE}
+dirFiles <- cluster("../../data/floder_with_fcs_files", dir = TRUE)
+```
+
+To support different input types the rSCHNEL package makes use of open-source tools available from different sources.
+Here we present all the required packages for each file/object type.
+
+## `.fcs` files
+In order to use the `.fcs` files install `flowCore` package from bioconductor 
+```{r, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("flowCore")
+```
+To support parsing the flowFrame objects install the ParkerICI/grappolo project
+```{r, eval=FALSE}
+devtools::install_github("ParkerICI/grappolo")
+```
+
+That allows you to read in and cluster data from `.fcs` files
+```{r, eval=FALSE}
+clusterSingleFile <- cluster(“../../data/fcs_data.fcs”)
+clusterDirectory <- cluster(“../../data/fileFCS/”, dir = T)
+```
+
+## `Seurat objects`
+
+The `Seurat` package is should be automatically installed when downloading the rSCHNEL package. 
+```{r, eval=FALSE} 
+# Extract the data from the Seurat object into a matrix
+seurat_to_matrix <- parse_to_matrix("../../data/seuratObj.rds")
+
+# Perform clustering on a seurat object
+cluster_seurat <- cluster("../../data/seuratObj.rds")
+```
+
+## `.h5ad files`
+Parsing `.h5ad` files in the rSCHNEL package makes use of two packages (currently under development) available on gitHub. 
+These packages are SeuratDisk and SeuratData. They allow for parsing `.h5ad` files into a Seurat object which is parsed within the package and fed into the clustering algorithm. 
+
+To install the required packages run the following commands:
+```{r, eval=FALSE}
+devtools::install_github("mojaveazure/seurat-disk")
+devtools::install_github('satijalab/seurat-data')
+```
+
+
+## SingleCellExperiment objects
+The rSCHNEL package can take as input SingleCellExperiment objects
+ Parsing of the SingleCellExperiment first transforms the SCE object into a Seurat object. To support this feature install a package from bioconductor.
+```{r, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("SingleCellExperiment")
+```
+

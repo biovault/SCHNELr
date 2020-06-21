@@ -1,0 +1,105 @@
+---
+title: "rSCHNEL - Clustering a Single File"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rSCHNEL - Clustering a Single File}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## Clustering MNIST dataset
+
+In this guided tutorial, we will describe the process of loading and pre-processing the data prior to clustering, as well as the whole clustering pipeline. In the single file example, we will be clustering the test set of the popular MNIST algorithm. The dataset can be downloaded from [here](http://yann.lecun.com/exdb/mnist/)
+
+To read in the data, use the `load_mnist_images(file_path)`. This function parses the id*-ubyte file into a NumericMatrix ready to be passed into the clustering algorithm. 
+
+```{r, eval=FALSE}
+data <- load_mnist_images("../../data/t10k-images.idx3-ubyte")
+```
+
+The NumericMatrix can be directly passed into the clustering algorithm. The algorithm also takes in as input other file types `.csv`, `.fcs` and objects `Seurat`, `.h5ad` and `SingleCellExperiment`.
+
+The clustering method itself can take a series of input values. All of them are described in detail in the documentation of the method (`?cluster`). 
+Pass the data object into the `cluster` function to run the algorithm.
+Here we specify that we want to pass the `data` object into the algorithm.
+
+```{r, eval=FALSE}
+clustered <- cluster(data)
+```
+
+The method first reads in the data and checks its format. Because its a NumericMatrix, it can be immediately passed to the HSNE hierarchy creation function. The function provides console output with the information about the HSNE hierarchy being created.
+
+``` {r, eval = FALSE}
+Applying PCA
+Initializing Hierarchical-SNE...
+Number of data points:	10000
+Initializing the first scale...
+Computing the neighborhood graph...
+	Building the trees...
+	AKNN queries...
+	FMC computation...
+Creating transition matrix...
+Min memory requirements (MB):	3.92914
+Initialization complete!
+Add a new scale with out-of-core implementation ...
+Landmark selection...
+Monte Carlo Approximation...
+Selection...
+	#landmarks:	2211
+	Computing area of influence...
+	Caching weights...
+	Inverting the AoI matrix...
+	Computing similarities...
+	Computing finite markov chain...
+
+--------------- Hierarchical-SNE Statistics ------------------
+Total time:	2.69811
+	Markov Chain Monte Carlo sampling time:	1.63543
+	Landmark selection time:		0.000137951
+	Lndks Slct #walks:			2e+06
+	Area of Influence computation time:	1.06185
+	FMC computation time:			0.000547095
+	AoI #walks:				2e+06
+	Is sparsity (%):			97.1955
+	Ts sparsity (%):			96.7932
+	Ts effective sparsity (%):		96.7932
+--------------------------------------------------------------
+```
+
+After generating the hsne hierarchy, a function performing the clustering is called. This function uses the Leiden algorithm.
+
+``` {r, eval = FALSE}
+Number of scales 2
+Start reading first scale of size 10000
+Done reading first scale..
+Next scale: 1
+Scale size: 2211
+Reading transmatrix...
+Reading landmarks of scale to original data...
+Reading landmarks to previous scale...
+Reading landmark weights...
+Reading previous scale to current scale...
+Reading area of influence...
+Total time spent parsing hierarchy and building objects: 1.0225149790446 seconds
+Applying Leiden algorithm.
+Warning: You are about to cluster the full dataset, this might take a very long time
+Applying Leiden algorithm.
+```
+
+The output is a matrix which number of columns is equal to the number of subscales at which the clustering was performed. Values in cells represent clusters to which each object has been assigned. 
+
+```{r, eval = FALSE}
+head(clustered)
+    [,1] [,2]
+[1,]    0    4
+[2,]    2   10
+[3,]    8    1
+[4,]    3    2
+[5,]    7    9
+[6,]    8    1
+```
