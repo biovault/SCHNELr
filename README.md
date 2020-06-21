@@ -25,7 +25,7 @@ install.packages("devtools")
 
 Then, download the package from GitHub.
 ```
-devtools::install_github(biovault/rschnel)
+devtools::install_github("biovault/SCHNELr")
 ```
 
 The vignette `installation_guide` includes the description of packages required to support different input formats. 
