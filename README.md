@@ -36,7 +36,7 @@ Followed by:
 library(rschenl)
 ```
 
-Now go download the python source file which is [here](https://github.com/biovault/SCHNELr/blob/master/py/src_clustering_HSNE_parser.py).
+Now go download the python source file which is [here](https://github.com/biovault/SCHNELr/blob/parser_in_python/py/src_clustering_HSNE_parser.py). 
 And finally:
 ```
 reticulate::source_python(__path_to_python_source_file__)
