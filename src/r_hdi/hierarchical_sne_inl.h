@@ -147,7 +147,7 @@ namespace hdi{
       if(_fmc_effective_sparsity != -1){      utils::secureLogValue(logger,"\tTs effective sparsity (%)", _fmc_effective_sparsity*100,true,2);}
       utils::secureLog(logger,"--------------------------------------------------------------\n");
     }
-    
+
   /////////////////////////////////////////////////////////////////////////
 
     template <typename scalar_type, typename sparse_scalar_matrix_type>
@@ -179,20 +179,20 @@ namespace hdi{
       _high_dimensional_data(nullptr),
       _verbose(false)
     {
-  
+
     }
 
     template <typename scalar_type, typename sparse_scalar_matrix_type>
     void HierarchicalSNE<scalar_type,sparse_scalar_matrix_type>::reset(){
       _initialized = false;
     }
-  
+
     template <typename scalar_type, typename sparse_scalar_matrix_type>
     void HierarchicalSNE<scalar_type,sparse_scalar_matrix_type>::clear(){
       _high_dimensional_data = nullptr;
       _initialized = false;
     }
-  
+
     template <typename scalar_type, typename sparse_scalar_matrix_type>
     void HierarchicalSNE<scalar_type,sparse_scalar_matrix_type>::getHighDimensionalDescriptor(scalar_vector_type& data_point, data_handle_type handle)const{
       data_point.resize(_dimensionality);
@@ -254,7 +254,7 @@ namespace hdi{
       utils::secureLog(_logger,"Computing the neighborhood graph...");
       flann::Matrix<scalar_type> dataset  (_high_dimensional_data,_num_dps,_dimensionality);
       flann::Matrix<scalar_type> query  (_high_dimensional_data,_num_dps,_dimensionality);
-      
+
       flann::Index<flann::L2<scalar_type> > index(dataset, flann::KDTreeIndexParams(_params._aknn_num_trees));
       unsigned_int_type nn = _params._num_neighbors + 1;
       scalar_type perplexity = _params._num_neighbors / 3.;
@@ -274,7 +274,7 @@ namespace hdi{
       {
         utils::secureLog(_logger,"\tFMC computation...");
         utils::ScopedTimer<scalar_type, utils::Seconds> timer(_statistics._init_probabilities_time);
-        
+
 #ifdef __APPLE__
         std::cout << "GCD dispatch, hierarchical_sne_inl 253.\n";
         dispatch_apply(_num_dps, dispatch_get_global_queue(0, 0), ^(size_t d) {
@@ -545,7 +545,7 @@ namespace hdi{
               }
             }
 
-            
+
 #ifdef __APPLE__
             dispatch_sync(criticalQueue, ^
 #else
@@ -605,7 +605,8 @@ namespace hdi{
         }
       }
 
-      utils::secureLogValue(_logger,"Min memory requirements (MB)",scale.mimMemoryOccupation());
+      //utils::secureLogValue(_logger,"Min memory requirements (MB)",scale.mimMemoryOccupation());
+      return true;
     }
 
     template <typename scalar_type, typename sparse_scalar_matrix_type>
@@ -769,6 +770,7 @@ namespace hdi{
           _statistics._fmc_effective_sparsity = 1 - scalar_type(num_effective_elem_in_Ts) / (selected_landmarks*selected_landmarks);
         }
       }
+          return true;
     }
 
     template <typename scalar_type, typename sparse_scalar_matrix_type>
@@ -914,7 +916,7 @@ namespace hdi{
           aoi[selection[i]] = 1;
         }
       }else{
-        
+
 #ifdef __APPLE__
         std::cout << "GCD dispatch, hierarchical_sne_inl 854.\n";
         dispatch_apply(scale(0).size(), dispatch_get_global_queue(0, 0), ^(size_t i) {
@@ -1055,6 +1057,7 @@ namespace hdi{
           }
         }
       }
+      return -1;
     }
 
     template <typename scalar_type, typename sparse_scalar_matrix_type>
@@ -1233,7 +1236,7 @@ namespace hdi{
     template <typename scalar_type, typename sparse_scalar_matrix_type>
     void HierarchicalSNE<scalar_type,sparse_scalar_matrix_type>::ClusterTree::computePointsToClusterAssociation(const HierarchicalSNE& hsne, std::vector<std::tuple<unsigned_int_type,int_type,scalar_type>>& res){
       res.resize(hsne.scale(0).size());
-      
+
 #ifdef __APPLE__
       std::cout << "GCD dispatch, hierarchical_sne_inl 1227.\n";
       dispatch_apply(res.size(), dispatch_get_global_queue(0, 0), ^(size_t i) {
@@ -1376,5 +1379,5 @@ namespace hdi{
 
   }
 }
-#endif 
+#endif
 

@@ -6,7 +6,7 @@
 #' @param n_components The desired number of principal components to keep
 #' @return Data frame with PCA transformation
 pca <- function(df, n_components = 50) {
-  if (ncol(df) > 50) {
+  if (ncol(df) > 50) {n
     message("Applying PCA")
     n_comp = min(ncol(df), n_components)
     res = prcomp(df, rank. = n_comp)

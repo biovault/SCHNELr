@@ -8,8 +8,6 @@ seurat_to_dataframe_pca(obj, npcs)
 }
 \arguments{
 \item{obj}{A seurat object from which data will be extracted into a dataframe.}
-
-\item{npcs}{Number of principal components to return. Principal Component Analysis is performed if the number of features is greater than 50}
 }
 \value{
 A dataframe containing the assay data from the Seurat object. Rows correspond to different measurements,

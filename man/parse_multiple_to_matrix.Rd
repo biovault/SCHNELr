@@ -15,7 +15,7 @@ parse_multiple_to_matrix(
 \arguments{
 \item{dir_path}{Path to the directory with files to be parsed.}
 
-\item{transformation}{Transformation applied to data prior to clustering: "log"/"arcsinh"/"FALSE, default = FALSE}
+\item{transformation}{Transformation applied to data prior to clsutering: "log"/"arcsinh"/"FALSE, default = FALSE}
 
 \item{cofactor}{Cofactor used in the arcsinh(x / cofactor) transformation}
 }

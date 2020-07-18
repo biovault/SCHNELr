@@ -4,7 +4,7 @@
 \alias{asinh_transformation}
 \title{asinh(x / cofactor) transformation on a data frame}
 \usage{
-asinh_transformation(df, cof = 5)
+asinh_transformation(df, cof)
 }
 \arguments{
 \item{df}{A data frame with elements to be transformed.}

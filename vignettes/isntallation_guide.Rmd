@@ -24,7 +24,6 @@ $ sudo apt-get install liblz4-dev
 $ sudo apt-get install libflann-dev
 ```
 
-
 To support the use of the clustering algorithm, please install python modules for the leiden algorithm.
 In case of any problems refer to the official website [here](https://cran.r-project.org/web/packages/leiden/vignettes/run_leiden.html)
 Install the required packages with `pip install leidenalg` / `pip 3 install leidenalg`
@@ -37,13 +36,6 @@ install.packages("devtools")
 Then, download the package from GitHub.
 ```{r, eval = F}
 devtools::install_github(biovault/rschnel)
-```
-
-## Loading Multiple Files
-
-In order to load in multiple files from one directory specify the `dir=` parameter.
-```{r, eval = FALSE}
-dirFiles <- cluster("../../data/floder_with_fcs_files", dir = TRUE)
 ```
 
 To support different input types the rSCHNEL package makes use of open-source tools available from different sources.
@@ -69,7 +61,14 @@ clusterDirectory <- cluster(“../../data/fileFCS/”, dir = T)
 
 ## `Seurat objects`
 
-The `Seurat` package is should be automatically installed when downloading the rSCHNEL package. 
+The `Seurat` package should be automatically installed when downloading the rSCHNEL package. 
+In case of unsuccesful installation, install the package yourself by running:
+```{r, eval = FALSE}
+install.packages("Seurat")
+```
+
+With help of this library, the rSCHNEL package supports operations on Seurat objects.
+
 ```{r, eval=FALSE} 
 # Extract the data from the Seurat object into a matrix
 seurat_to_matrix <- parse_to_matrix("../../data/seuratObj.rds")

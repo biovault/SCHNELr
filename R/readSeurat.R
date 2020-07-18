@@ -3,7 +3,7 @@
 #' Extract data from the Seurat object into a dataframe.
 #'
 #' @param obj A seurat object from which data will be extracted into a dataframe.
-#' @param npcs Number of principal components to return. Principal Component Analysis is performed if the number of features is greater than 50
+#' @parm npcs Number of principal components to return. Principal Component Analysis is performed if the number of features is greater than 50
 #' @return A dataframe containing the assay data from the Seurat object. Rows correspond to different measurements,
 #' columns to different features
 #' @examples

@@ -8,6 +8,7 @@ cluster(
   file_path,
   dir = F,
   sce = F,
+  p_comps = NULL,
   n_scales = 0,
   n_neighbors = 50,
   transformation = "NULL",

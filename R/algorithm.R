@@ -29,6 +29,7 @@ cluster <- function(
   file_path,
   dir = F,
   sce = F,
+  p_comps = NULL,
   n_scales = 0,
   n_neighbors = 50,
   transformation = "NULL",
@@ -69,26 +70,37 @@ cluster <- function(
                         num_walks, num_walks_per_landmark, monte_carlo_sampling, out_of_core_computation)
 
   # Read in the hsne hierarchy
-  hsne_parser <- HSNE_parser()
-  hier <- hsne_parser$read_HSNE_binary("test.hsne")
+  #message("should not stop here")
 
   # Initialize a matrix to store the result of the algorithm
   final_matrix <- matrix(nrow = nrow(data_matrix))
   # Get rid of the empty column
   final_matrix <- final_matrix[,-1]
 
+  #message("also should not stop here")
+
   # Create a list with subscale numbers
-  n_scales <- c(1:hier$num_scales)
+  num_scales <- get_num_scales("test.hsne")
+
+  #message("if it stops here its python importing")
+
+  #n_scales <- c(2:hier$num_scales)
+  n_scales <- c(1:num_scales - 1)
 
   # Cluster all the subscales
   lapply(n_scales, function(x) {
-    final_matrix <<- cbind2(final_matrix,  as.matrix(hier$cluster_scale(x, prop_method)))
+    #final_matrix <<- cbind2(final_matrix,  as.matrix(hier$cluster_scale(x)))
+    final_matrix <<- cbind2(final_matrix,  as.matrix(parse_and_cluster("test.hsne", x, prop_method)))
+    #message("lapply working")
   })
+
+  #message("if it stops here its the size kinda shits idk")
 
   # Create the output form
   if (dir) {
     return(split_matrix(final_matrix, matrices_info))
   }
+  #message("you are here.")
   return(final_matrix)
 
 }

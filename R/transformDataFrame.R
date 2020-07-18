@@ -17,7 +17,7 @@ log_t <- function(val) {
 #' @param df A data frame with elements to be transformed.
 #' @return A data frame with applied transformation.
 log_transformation <- function(df) {
-  df %>% dplyr::mutate_each(list(~log_t(.)))
+  df %>% dplyr::mutate_each(dplyr::funs(log_t))
 }
 
 #' asinh(x / cofactor) transformation on a data frame
@@ -27,7 +27,7 @@ log_transformation <- function(df) {
 #' @param df A data frame with elements to be transformed.
 #' @param cof cofactor
 #' @return A data frame with applied transformation.
-asinh_transformation <- function(df, cof = 5) {
+asinh_transformation <- function(df, cof) {
   temp = df/cof
-  temp %>% dplyr::mutate_each(list(~asinh(.)))
+  temp %>% dplyr::mutate_each(dplyr::funs(asinh))
 }

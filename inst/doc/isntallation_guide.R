@@ -10,9 +10,6 @@ knitr::opts_chunk$set(
 ## ---- eval = F----------------------------------------------------------------
 #  devtools::install_github(biovault/rschnel)
 
-## ---- eval = FALSE------------------------------------------------------------
-#  dirFiles <- cluster("../../data/floder_with_fcs_files", dir = TRUE)
-
 ## ---- eval=FALSE--------------------------------------------------------------
 #  if (!requireNamespace("BiocManager", quietly = TRUE))
 #      install.packages("BiocManager")
@@ -24,6 +21,9 @@ knitr::opts_chunk$set(
 ## ---- eval=FALSE--------------------------------------------------------------
 #  clusterSingleFile <- cluster(“../../data/fcs_data.fcs”)
 #  clusterDirectory <- cluster(“../../data/fileFCS/”, dir = T)
+
+## ---- eval = FALSE------------------------------------------------------------
+#  install.packages("Seurat")
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  # Extract the data from the Seurat object into a matrix

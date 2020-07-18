@@ -27,27 +27,27 @@ parse_to_matrix <- function(file_path, transformation = F, cofactor = 5, csv_hea
   # Check if input is an object
   if (is.matrix(file_path)) {
     tdata <- file_path
+
+  } else {
+  ext = tools::file_ext(file_path)
+  if (ext == "csv") {
+    tdata <- csv_to_dataframe(file_path, csv_header)
+    tdata <- pca(tdata, features_after_pca)
+  } else if (ext == "fcs") {
+    tdata <- fcs_to_dataframe(file_path)
+    tdata <- pca(tdata, features_after_pca)
+  } else if (ext == 'rds' && sce == TRUE) {
+    tdata <- sce_to_dataframe(file_path)
+    tdata <- pca(tdata, features_after_pca)
+  } else if (ext == "rds") {
+    s_obj <- readRDS(file_path)
+    tdata <- seurat_to_dataframe_pca(s_obj, features_after_pca)
+  } else if (ext == "h5ad") {
+    tdata <- h5ad_to_dataframe(file_path)
     tdata <- pca(tdata, features_after_pca)
   } else {
-    ext = tools::file_ext(file_path)
-    if (ext == "csv") {
-      tdata <- csv_to_dataframe(file_path, csv_header)
-      tdata <- pca(tdata, features_after_pca)
-    } else if (ext == "fcs") {
-      tdata <- fcs_to_dataframe(file_path)
-      tdata <- pca(tdata, features_after_pca)
-    } else if (ext == 'rds' && sce == TRUE) {
-      tdata <- sce_to_dataframe(file_path)
-      tdata <- pca(tdata, features_after_pca)
-    } else if (ext == "rds") {
-      s_obj <- readRDS(file_path)
-      tdata <- seurat_to_dataframe_pca(s_obj, features_after_pca)
-    } else if (ext == "h5ad") {
-      tdata <- h5ad_to_dataframe(file_path)
-      tdata <- pca(tdata, features_after_pca)
-    } else {
-      stop("Unsupported file extension!")
-    }}
+    stop("Unsupported file extension!")
+  }}
 
   if (transformation == "log") {
     tdata = log_transformation(tdata)
@@ -65,7 +65,7 @@ parse_to_matrix <- function(file_path, transformation = F, cofactor = 5, csv_hea
 
 #' Parse data from files in a specified directory into a NumericalMatrix.
 #' @param dir_path Path to the directory with files to be parsed.
-#' @param transformation Transformation applied to data prior to clustering: "log"/"arcsinh"/"FALSE, default = FALSE
+#' @param transformation Transformation applied to data prior to clsutering: "log"/"arcsinh"/"FALSE, default = FALSE
 #' @param cofactor Cofactor used in the arcsinh(x / cofactor) transformation
 parse_multiple_to_matrix <- function(dir_path, transformation = F, cofactor = 5, csv_header = T, features_after_pca = 50) {
   # Create a list of names of the files inside the given directory

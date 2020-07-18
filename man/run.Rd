@@ -19,6 +19,11 @@ run(
   out_of_core_computation
 )
 }
+\arguments{
+\item{nm}{A numeric matrix on which the algorithm is run.}
+
+\item{num_scales}{Number of scales of the HSNE hierarchy.}
+}
 \description{
 Run the HSNE dimensionality reducion algorithm on a NumericalMatrix.
 }
